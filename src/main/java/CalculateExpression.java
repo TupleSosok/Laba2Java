@@ -15,6 +15,7 @@ public class CalculateExpression {
             case '+', '-' -> 1;
             case '*', '/' -> 2;
             case '^' -> 3;
+            case '~' -> 4;
             default -> 0;
         };
     }
@@ -59,6 +60,10 @@ public class CalculateExpression {
 
             } else { // Если символ - оператор
 
+                //если минус унарный то сделать его ~
+                if (ch == '-' && (i == 0 || (i > 1 && infix.charAt(i - 1) == '(')))
+                    ch = '~';
+
                 // Выталкиваем элементы из стека, пока приоритет текущего оператора не станет меньше приоритета оператора на вершине стека
                 while (!stack.isEmpty() && getPriority(ch) <= getPriority(stack.peek())) {
                     postfix.append(stack.pop()).append(' ');
@@ -91,7 +96,11 @@ public class CalculateExpression {
 
             if (Character.isDigit(token.charAt(0)) || token.charAt(0) == '.') {
                 stack.push(Double.parseDouble(token));
-            } else {
+            }
+            else if(token.charAt(0) == '~') {
+                stack.push(stack.pop() * -1);
+            }
+            else{
                 double b = stack.pop();
                 double a = stack.pop();
                 double result = performOperation(token.charAt(0), a, b);
