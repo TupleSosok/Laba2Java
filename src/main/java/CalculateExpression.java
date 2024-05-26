@@ -75,6 +75,7 @@ public class CalculateExpression {
 
         // Выталкиваем оставшиеся элементы из стека в выходную строку
         while (!stack.isEmpty()) {
+            postfix.append(' ');
             postfix.append(stack.pop()).append(' ');
         }
 
@@ -107,6 +108,9 @@ public class CalculateExpression {
                 double result = performOperation(token.charAt(0), a, b);
                 stack.push(result);
                 }
+                catch (ArithmeticException e){
+                    throw e;
+                }
                 catch (RuntimeException e){
                     throw new RuntimeException("Illegal expression");
                 }
@@ -127,7 +131,9 @@ public class CalculateExpression {
      * @param b число
      * @return результиат операции
      */
-    private static double performOperation(char operator, double a, double b) {
+    private static double performOperation(char operator, double a, double b) throws
+            ArithmeticException,
+            IllegalArgumentException{
         return switch (operator) {
             case '+' -> a + b;
             case '-' -> a - b;
