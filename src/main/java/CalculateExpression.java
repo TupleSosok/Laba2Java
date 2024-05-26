@@ -101,15 +101,23 @@ public class CalculateExpression {
                 stack.push(stack.pop() * -1);
             }
             else{
+                try {
                 double b = stack.pop();
                 double a = stack.pop();
                 double result = performOperation(token.charAt(0), a, b);
                 stack.push(result);
+                }
+                catch (RuntimeException e){
+                    throw new RuntimeException("Illegal expression");
+                }
             }
         }
 
         // В стеке должен остаться только один элемент, который является результатом выражения
-        return stack.pop();
+        double result = stack.pop();
+        if(!stack.empty())
+            throw new RuntimeException("Illegal expression");
+        return result;
     }
 
     /**
