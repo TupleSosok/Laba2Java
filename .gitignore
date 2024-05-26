@@ -1,3 +1,14 @@
+#Mavem#
+target/
+
+# Ignore IDEA project files
+*.iml
+*.ipr
+*.iws
+
+# Ignore all in .idea directory
+.idea/
+
 # Compiled class file
 *.class
 
